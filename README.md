@@ -1,5 +1,7 @@
 # Python exercises
 
+![Testing](https://github.com/DualbootPartnersLLC/ru-study-python/actions/workflows/main.yml/badge.svg)
+
 ## Запуск проекта
 
 ```sh
