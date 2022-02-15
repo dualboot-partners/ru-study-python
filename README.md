@@ -1,6 +1,6 @@
 # Python exercises
 
-![Testing](https://github.com/DualbootPartnersLLC/ru-study-python/actions/workflows/main.yml/badge.svg)
+![Testing](https://github.com/DualbootPartnersLLC/ru-study-python/actions/workflows/main.yml/badge.svg?branch=feature/error-branch)
 
 ## Запуск проекта
 
