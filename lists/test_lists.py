@@ -1,5 +1,3 @@
-
-
 from .lists import ListExercise
 
 

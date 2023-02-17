@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 from flask import Flask
 from flask.testing import FlaskClient
-import pytest
+
 
 from .flask_excercises import FlaskExercise
 
