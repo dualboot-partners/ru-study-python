@@ -8,7 +8,7 @@ class ListExercise:
         :param input_list: Исходный список
         :return: Список с замененными элементами
         """
-        pass
+        return [max(input_list) if i > 0 else i for i in input_list]
 
     @staticmethod
     def search(input_list: list[int], query: int) -> int:
@@ -20,4 +20,14 @@ class ListExercise:
         :param query: Искомый элемент
         :return: Номер элемента
         """
-        pass
+        low = 0
+        high = len(input_list) - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if input_list[mid] < query:
+                low = mid + 1
+            elif input_list[mid] > query:
+                high = mid - 1
+            else:
+                return mid
+        return -1
