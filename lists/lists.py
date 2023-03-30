@@ -26,7 +26,8 @@ class ListExercise:
         if input_list[mid] == query:
             return mid
         elif input_list[mid] < query:
-            result = ListExercise.search(input_list[mid + 1:], query)
+            new_mid = mid + 1
+            result = ListExercise.search(input_list[new_mid:], query)
             if result == -1:
                 return -1
             else:
