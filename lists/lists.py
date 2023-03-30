@@ -20,14 +20,16 @@ class ListExercise:
         :param query: Искомый элемент
         :return: Номер элемента
         """
-        low = 0
-        high = len(input_list) - 1
-        while low <= high:
-            mid = (low + high) // 2
-            if input_list[mid] < query:
-                low = mid + 1
-            elif input_list[mid] > query:
-                high = mid - 1
+        if not input_list:
+            return -1
+        mid = len(input_list) // 2
+        if input_list[mid] == query:
+            return mid
+        elif input_list[mid] < query:
+            result = ListExercise.search(input_list[mid + 1:], query)
+            if result == -1:
+                return -1
             else:
-                return mid
-        return -1
+                return mid + result + 1
+        else:
+            return ListExercise.search(input_list[:mid], query)
