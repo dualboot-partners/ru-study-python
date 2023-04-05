@@ -29,8 +29,29 @@ class ListExercise:
         :param query: Искомый элемент
         :return: Номер элемента
         """
-        pass
 
-a = ListExercise()
+        if input_list:
+            low = 0
+            high = len(input_list) - 1
 
-print(a.replace([3, 2, -8, 4, 100, -6, 7, 8, -99]))
+            if high == 0:
+                mid = 0
+            else:
+                mid = len(input_list) // 2
+
+            input_list.sort()
+
+            while input_list[mid] != query and low <= high:
+                if query > input_list[mid]:
+                    low = mid + 1
+                else:
+                    high = mid - 1
+                mid = (low + high) // 2
+            
+            if low > high:
+                return -1
+            else:
+                return mid
+
+        else:
+            return -1
