@@ -18,11 +18,11 @@ class MapExercise:
             if (
                 movie["rating_kinopoisk"]
                 and float(movie["rating_kinopoisk"]) != 0
-                and len(movie["country"].split(",")) >= 2
+                and movie["country"].count(",") >= 1
             ):
                 more_2_countries_movies.append(movie)
         rating = map(lambda movie: float(movie["rating_kinopoisk"]), more_2_countries_movies)
-        return sum(rating) / len(list(more_2_countries_movies))
+        return sum(rating) / len(more_2_countries_movies)
 
     @staticmethod
     def chars_count(list_of_movies: list[dict], rating: Union[float, int]) -> int:
