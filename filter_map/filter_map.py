@@ -6,7 +6,7 @@ class FilterMapExercise:
     def filter_map(func: Callable[[Any], Tuple[bool, Any]], input_array: List[Any]) -> List[Any]:
         result_list = []
         for element in input_array:
-            res = func(element)
-            if res[0]:
-                result_list.append(res[1])
+            flag, value = func(element)
+            if flag:
+                result_list.append(value)
         return result_list
