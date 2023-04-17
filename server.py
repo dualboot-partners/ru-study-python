@@ -10,7 +10,7 @@ nicknames = set()
 
 
 def broadcast(message):
-    """Функция отправки сообщений в общий чат"""
+    """Функция отправки сообщений клиента в общий чат"""
     for client in clients:
         client.sendall(message)
 
