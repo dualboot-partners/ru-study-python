@@ -10,10 +10,15 @@ class ListExercise:
         """
 
         out_list = []
+        max_elem = 0
+
+        for elem in input_list:
+            if elem > max_elem:
+                max_elem = elem
 
         for elem in input_list:
             if elem > 0:
-                out_list.append(max(input_list))
+                out_list.append(max_elem)
             else:
                 out_list.append(elem)
 
@@ -30,28 +35,21 @@ class ListExercise:
         :return: Номер элемента
         """
 
-        if input_list:
-            low = 0
-            high = len(input_list) - 1
-
-            if high == 0:
-                mid = 0
-            else:
-                mid = len(input_list) // 2
-
-            input_list.sort()
-
-            while input_list[mid] != query and low <= high:
-                if query > input_list[mid]:
-                    low = mid + 1
-                else:
-                    high = mid - 1
-                mid = (low + high) // 2
+        start = 0
+        end = len(input_list) - 1
+        
+        while start <= end:
+            mid_pos = (start + end) // 2
             
-            if low > high:
-                return -1
-            else:
-                return mid
+            if query == input_list[mid_pos]:
+                return mid_pos
 
-        else:
-            return -1
+            if query > input_list[mid_pos]:
+                start = mid_pos + 1
+                ListExercise.search(input_list[start:], query)
+                
+            if query < input_list[mid_pos]:
+                end = mid_pos - 1
+                ListExercise.search(input_list[start:end], query)
+            
+        return -1
