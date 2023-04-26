@@ -13,7 +13,16 @@ class MapExercise:
         Ключи словаря: name, rating_kinopoisk, rating_imdb, genres, year, access_level, country
         :return: Средний рейтинг фильмов у которых две или больше стран
         """
-        pass
+        list_of_rating = list(filter(lambda x: x != 0, map(MapExercise.calculate_rating, list_of_movies)))
+        average = sum(list_of_rating) / len(list_of_rating)
+        return average
+
+    @staticmethod
+    def calculate_rating(movie: dict) -> float:
+        if len(movie['country'].split(',')) > 1:
+            if movie['rating_kinopoisk'] and float(movie['rating_kinopoisk']) > 0:
+                return float(movie['rating_kinopoisk'])
+        return 0.0
 
     @staticmethod
     def chars_count(list_of_movies: list[dict], rating: Union[float, int]) -> int:
@@ -28,4 +37,10 @@ class MapExercise:
         :return: Количество букв 'и' в названиях всех фильмов с рейтингом больше
         или равным заданному значению
         """
-        pass
+        count = map(MapExercise.calculate_chars,
+                    filter(lambda x: x['rating_kinopoisk'] and float(x['rating_kinopoisk']) >= rating, list_of_movies))
+        return sum(count)
+
+    @staticmethod
+    def calculate_chars(movie: dict) -> int:
+        return movie['name'].count('и')
