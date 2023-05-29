@@ -1,31 +1,45 @@
-from flask import Flask
+from flask import Flask, make_response, Response, request
+from http import HTTPStatus
+import json
 
 
 class FlaskExercise:
-    """
-    Вы должны создать API для обработки CRUD запросов.
-    В данной задаче все пользователи хранятся в одном словаре, где ключ - это имя пользователя,
-    а значение - его параметры. {"user1": {"age": 33}, "user2": {"age": 20}}
-    Словарь (dict) хранить в памяти, он должен быть пустым при старте flask.
-
-    POST /user - создание пользователя.
-    В теле запроса приходит JSON в формате {"name": <имя пользователя>}.
-    Ответ должен вернуться так же в JSON в формате {"data": "User <имя пользователя> is created!"}
-    со статусом 201.
-    Если в теле запроса не было ключа "name", то в ответ возвращается JSON
-    {"errors": {"name": "This field is required"}} со статусом 422
-
-    GET /user/<name> - чтение пользователя
-    В ответе должен вернуться JSON {"data": "My name is <name>"}. Статус 200
-
-    PATCH /user/<name> - обновление пользователя
-    В теле запроса приходит JSON в формате {"name": <new_name>}.
-    В ответе должен вернуться JSON {"data": "My name is <new_name>"}. Статус 200
-
-    DELETE /user/<name> - удаление пользователя
-    В ответ должен вернуться статус 204
-    """
-
     @staticmethod
     def configure_routes(app: Flask) -> None:
-        pass
+        users = {}
+        @app.route("/user", methods=['POST'])
+        def create_user() -> Response:
+            data_string = request.get_data()
+            data = json.loads(data_string)
+            try:
+                name = data['name']
+                users[name] = data
+                return make_response({"data": f"User {name} is created!"}, HTTPStatus.CREATED)
+            except:
+                return make_response({"errors": {"name": "This field is required"}}, HTTPStatus.UNPROCESSABLE_ENTITY)
+                
+        @app.route("/user/<username>", methods=['GET', 'PATCH', 'DELETE'])
+        def user_actions(username) -> Response:
+            if not username:
+                return make_response('', HTTPStatus.NOT_FOUND)
+            try:
+                user = users[username]
+            except:
+                return make_response('', HTTPStatus.NOT_FOUND)
+            
+            match request.method:
+                case 'GET':
+                    user_name = user['name']
+                    return make_response({"data": f"My name is {user_name}"}, HTTPStatus.OK)
+
+                case 'PATCH':
+                    data_string = request.get_data()
+                    data = json.loads(data_string)
+                    users[username] = data
+                    new_user_name = users[username]['name']
+                    return make_response({"data": f"My name is {new_user_name}"}, HTTPStatus.OK)
+            
+                case 'DELETE':
+                    del users[username]
+                    return make_response('', HTTPStatus.NO_CONTENT)
+                
