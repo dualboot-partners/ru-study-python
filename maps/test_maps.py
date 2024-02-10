@@ -7,6 +7,7 @@ from .maps import MapExercise
 
 
 class TestMapExercise:
+    @pytest.fixture
     def list_of_movies(self) -> list[dict]:
         print(os.getcwd())
         with open("fixtures/movies.csv", "r") as movies:

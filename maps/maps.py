@@ -4,28 +4,31 @@ from typing import Union
 class MapExercise:
     @staticmethod
     def rating(list_of_movies: list[dict]) -> float:
-        """
-        !!Задание нужно решить используя map!!
-        Посчитать средний рейтинг фильмов (rating_kinopoisk) у которых две или больше стран.
-        Фильмы у которых рейтинг не задан или равен 0 не учитывать в расчете среднего.
-
-        :param list_of_movies: Список фильмов.
-        Ключи словаря: name, rating_kinopoisk, rating_imdb, genres, year, access_level, country
-        :return: Средний рейтинг фильмов у которых две или больше стран
-        """
-        pass
+        if not list_of_movies:
+            raise ValueError("List is empty")
+        key, rating = "country", "rating_kinopoisk"
+        filtered = list(
+            filter(
+                lambda sub: "," in (sub[key])
+                and not not (sub[rating])
+                and not (sub[rating]) == "0",
+                list_of_movies,
+            )
+        )
+        ratings = list(map(lambda sub: float((sub[rating])), filtered))
+        average = sum(ratings) / len(ratings)
+        return average
 
     @staticmethod
     def chars_count(list_of_movies: list[dict], rating: Union[float, int]) -> int:
-        """
-        !!Задание нужно решить используя map!!
-        Посчитать количество букв 'и' в названиях всех фильмов с рейтингом (rating_kinopoisk) больше
-        или равным заданному значению
-
-        :param list_of_movies: Список фильмов
-        Ключи словаря: name, rating_kinopoisk, rating_imdb, genres, year, access_level, country
-        :param rating: Заданный рейтинг
-        :return: Количество букв 'и' в названиях всех фильмов с рейтингом больше
-        или равным заданному значению
-        """
-        pass
+        if not list_of_movies or not rating:
+            raise ValueError("List or rating is empty")
+        set_rating, key, count_key, letter = rating, "rating_kinopoisk", "name", "и"
+        filtered = list(
+            filter(lambda sub: not not (sub[key]) and not (sub[key]) == "0", list_of_movies)
+        )
+        ranged = list(filter(lambda sub: float((sub[key])) >= set_rating, filtered))
+        names = list(map(lambda sub: (sub[count_key]), ranged))
+        count = list(map(lambda sub: (sub.count(letter)), names))
+        sum_up = sum(count)
+        return sum_up
