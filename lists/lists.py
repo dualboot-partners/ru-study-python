@@ -3,7 +3,12 @@ class ListExercise:
     def replace(input_list: list[int]) -> list[int]:
         if not input_list:
             return input_list
-        max_value = max(input_list)
+
+        max_value = input_list[0]
+        for num in input_list:
+            if num > max_value:
+                max_value = num
+
         return [max_value if x > 0 else x for x in input_list]
 
     @staticmethod
