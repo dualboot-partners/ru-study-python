@@ -1,5 +1,4 @@
 from typing import Union
-import numpy as np
 
 
 class MapExercise:
@@ -41,10 +40,10 @@ class MapExercise:
         :return: Количество букв 'и' в названиях всех фильмов с рейтингом больше
         или равным заданному значению
         """
-
         rating_films = filter(lambda item: item['rating_kinopoisk'] != '', list_of_movies)
 
-        count_map = map(lambda movie: movie['name'].count('и') if float(movie['rating_kinopoisk']) >= rating else 0,
-                        rating_films)
+        count_map = map(lambda movie:
+                        movie['name'].count('и')
+                        if float(movie['rating_kinopoisk']) >= rating else 0, rating_films)
 
         return sum(count_map)
