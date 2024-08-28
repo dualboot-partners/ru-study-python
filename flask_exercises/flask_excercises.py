@@ -7,7 +7,6 @@ class FlaskExercise:
     def configure_routes(app: Flask) -> None:
 
         users = {}
-
         @app.route('/user', methods=['POST'])
         def create_user():
             data = request.json
