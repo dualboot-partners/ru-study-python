@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 
 
 class FlaskExercise:
@@ -28,4 +28,29 @@ class FlaskExercise:
 
     @staticmethod
     def configure_routes(app: Flask) -> None:
-        pass
+        db = {}
+
+        def view(user=None):
+            if request.method == "POST":
+                json_data = request.get_json(force=True)
+                name = json_data.get("name", "")
+                if not name:
+                    return {"errors": {"name": "This field is required"}}, 422
+                db[name] = {}
+                return {"data": f"User {name} is created!"}, 201
+            elif request.method == "GET":
+                if not user in db:
+                    return {}, 404
+                return {"data": f"My name is {user}"}, 200
+            elif request.method == "PATCH":
+                json_data = request.get_json(force=True)
+                name = json_data.get("name")
+                return {"data": f"My name is {name}"}, 200
+            elif request.method == "DELETE":
+                if not user in db:
+                    return "", 404
+                db.pop(user)
+                return "", 204
+
+        app.add_url_rule("/user", view_func=view, methods=["POST"])
+        app.add_url_rule("/user/<user>", view_func=view, methods=["GET", "PATCH", "DELETE"])
